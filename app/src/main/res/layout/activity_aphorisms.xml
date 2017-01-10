@@ -10,5 +10,17 @@
     android:orientation="vertical"
     tools:context="com.hm17.dailyaphorisms.MainActivity">
 
+    <TextView
+        android:id="@+id/textDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Welcome to Daily Aphorisms!" />
 
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Next"
+        android:layout_gravity="center"
+        android:onClick="nextAphorism" />
 </LinearLayout>
