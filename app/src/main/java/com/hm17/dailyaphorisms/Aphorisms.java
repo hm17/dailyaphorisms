@@ -48,7 +48,8 @@ public class Aphorisms extends AppCompatActivity {
         dictionary.put(0, "I crave a love so deep the ocean would be jealous.");
         dictionary.put(1, "You make my dopamine levels go all silly.");
         dictionary.put(2, "Just say yes.");
-        dictionary.put(3, "You can do it!");
+        dictionary.put(3, "When you are stuck in a place where you feel you are not good enough, " +
+                "remember that what is right with you is always more than what is wrong with you.");
         dictionary.put(4, "Anything is possibleeeeee!");
     }
 

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Welcome to Daily Aphorisms!" />
+        android:text="When you can't find the words to say...." />
 
     <Button
         android:layout_height="wrap_content"
