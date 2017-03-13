@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Aphorisms extends AppCompatActivity {
+
+    private WebserviceController controller;
+
     private int dailyCount = 0;
 
     // Users are limited to 3 quotes a day.
@@ -32,6 +35,8 @@ public class Aphorisms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aphorisms);
 
+        controller = new WebserviceController(this);
+
         populateDictionary();
         setText();
 
@@ -43,6 +48,7 @@ public class Aphorisms extends AppCompatActivity {
         changeBackgroundColor();
         setText();
         dailyCount++;
+        controller.get();
     }
 
     private void changeBackgroundColor(){
