@@ -23,8 +23,8 @@ public class Aphorisms extends AppCompatActivity {
 
     private final static String ERROR_LIMIT_MSG = "Sorry! You've reached your limit for today!";
 
-    private final static String COLOR_PINK = "FFCCFF";
-    private final static String COLOR_TEAL = "1FC4BA";
+    private final static String COLOR_PINK = "#FFCCFF";
+    private final static String COLOR_TEAL = "#1FC4BA";
 
     Map<Integer, String> dictionary = new HashMap<>();
     Map<Integer, Integer> cache = new HashMap<>();
@@ -48,7 +48,12 @@ public class Aphorisms extends AppCompatActivity {
         changeBackgroundColor();
         setText();
         dailyCount++;
-        controller.get();
+        controller.get(new VolleyCallback(){
+            @Override
+            public void onSuccess(String result){
+                System.out.println(".... results: " + result);
+            }
+        });
     }
 
     private void changeBackgroundColor(){

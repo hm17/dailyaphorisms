@@ -28,15 +28,17 @@ public class WebserviceController {
 
     }
 
-    public void get() {
+    public void get(final VolleyCallback callback) {
+
         String url = SERVER_URL + "?action=get_app&id=1";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        System.out.println("Response is: " + response.substring(0, 500));
+                        System.out.println("Response is: " + response);
+                        callback.onSuccess(response);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
