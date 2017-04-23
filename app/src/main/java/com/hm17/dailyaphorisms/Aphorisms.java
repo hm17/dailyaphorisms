@@ -21,6 +21,9 @@ public class Aphorisms extends AppCompatActivity {
     // How to restrict users from resetting dailycount when app restarts?
     private int hardLimit = 2;
 
+    // TODO: Put in config file (get fr server)
+    private final static int QUOTES_TOTAL = 30;
+
     private final static String ERROR_LIMIT_MSG = "Sorry! You've reached your limit for today!";
 
     private final static String COLOR_PINK = "#FFCCFF";
@@ -48,6 +51,8 @@ public class Aphorisms extends AppCompatActivity {
         changeBackgroundColor();
         setText();
         dailyCount++;
+
+        // TODO: Send random number w/ QUOTE_TOTAL as limit
         controller.get(new VolleyCallback(){
             @Override
             public void onSuccess(String result){
