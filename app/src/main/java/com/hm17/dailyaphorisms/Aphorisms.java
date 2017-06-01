@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,21 +61,46 @@ public class Aphorisms extends AppCompatActivity {
             @Override
             public void onSuccess(String result){
 
+                String resultParsed = "";
+
+                // Extract result from in between []
                 Pattern p = Pattern.compile("\\[(.*?)\\]");
                 Matcher m = p.matcher(result);
-
-                String resultParsed = "";
                 while(m.find()) {
                     resultParsed = m.group(1);
                 }
 
-                // Convert String to List<String>
-                List<String> resultList = new ArrayList<String>();
-                resultList = Arrays.asList(resultParsed);
-                System.out.println(resultList);
+                // Extract aphorism info from {}
+                List<String> aInfo = new ArrayList<>();
+                p = Pattern.compile("\\{([^}]*)\\}");
+                m = p.matcher(resultParsed);
+                while (m.find()) {
+                    aInfo.add(m.group(1));
+                }
+                
+                for(String info : aInfo)
+                    System.out.println(info);
+/*
+                // Convert to List<Map>
+                List<Map> aphorisms = new ArrayList<>();
+                for(String value : resultList){
+                    System.out.println("-----value: " + value);
+                    value = value.substring(1, value.length()-1);           //remove curly brackets
+                    String[] keyValuePairs = value.split(",");              //split the string to creat key-value pairs
+                    Map<String,String> map = new HashMap<>();
 
-                // TODO: Convert to List<Map>
+                    for(String pair : keyValuePairs)                        //iterate over the pairs
+                    {
+                        System.out.println("-------pair: " + pair);
+                        String[] entry = pair.split(":");
+                        System.out.println("-------entry: " + entry);
+                        map.put(entry[0].trim(), entry[1].trim());          //add them to the hashmap and trim whitespaces
+                    }
+                    aphorisms.add(map);
+                }
 
+                System.out.println(aphorisms);
+                */
             }
         });
     }
