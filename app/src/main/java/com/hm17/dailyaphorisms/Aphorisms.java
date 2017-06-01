@@ -8,8 +8,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Aphorisms extends AppCompatActivity {
 
@@ -56,7 +61,22 @@ public class Aphorisms extends AppCompatActivity {
         controller.get(new VolleyCallback(){
             @Override
             public void onSuccess(String result){
-                System.out.println(".... results: " + result);
+
+                Pattern p = Pattern.compile("\\[(.*?)\\]");
+                Matcher m = p.matcher(result);
+
+                String resultParsed = "";
+                while(m.find()) {
+                    resultParsed = m.group(1);
+                }
+
+                // Convert String to List<String>
+                List<String> resultList = new ArrayList<String>();
+                resultList = Arrays.asList(resultParsed);
+                System.out.println(resultList);
+
+                // TODO: Convert to List<Map>
+
             }
         });
     }
