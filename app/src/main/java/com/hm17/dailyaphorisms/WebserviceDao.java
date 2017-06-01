@@ -15,14 +15,14 @@ import com.android.volley.toolbox.Volley;
  * Created by hmadolid on 3/12/17.
  */
 
-public class WebserviceController {
+public class WebserviceDao {
 
     private RequestQueue queue;
 
     // Get from config file eventually
     private final static String SERVER_URL = "http://dailyaphorisms.hazella.co/api.php";
 
-    public WebserviceController(Context context) {
+    public WebserviceDao(Context context) {
         // Instantiate the RequestQueue.
         queue = Volley.newRequestQueue(context);
 

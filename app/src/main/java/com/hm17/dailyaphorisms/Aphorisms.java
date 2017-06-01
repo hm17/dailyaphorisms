@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class Aphorisms extends AppCompatActivity {
 
-    private WebserviceController controller;
+    private WebserviceDao webserviceDao;
 
     private int dailyCount = 0;
 
@@ -42,7 +42,7 @@ public class Aphorisms extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aphorisms);
 
-        controller = new WebserviceController(this);
+        webserviceDao = new WebserviceDao(this);
 
         populateDictionary();
         setText();
@@ -57,7 +57,11 @@ public class Aphorisms extends AppCompatActivity {
         dailyCount++;
 
         // TODO: Send random number w/ QUOTE_TOTAL as limit
-        controller.get(new VolleyCallback(){
+
+    }
+
+    private void initializeDictionary(){
+        webserviceDao.get(new VolleyCallback(){
             @Override
             public void onSuccess(String result){
 
@@ -77,30 +81,29 @@ public class Aphorisms extends AppCompatActivity {
                 while (m.find()) {
                     aInfo.add(m.group(1));
                 }
-                
-                for(String info : aInfo)
-                    System.out.println(info);
-/*
-                // Convert to List<Map>
-                List<Map> aphorisms = new ArrayList<>();
-                for(String value : resultList){
-                    System.out.println("-----value: " + value);
-                    value = value.substring(1, value.length()-1);           //remove curly brackets
-                    String[] keyValuePairs = value.split(",");              //split the string to creat key-value pairs
-                    Map<String,String> map = new HashMap<>();
 
-                    for(String pair : keyValuePairs)                        //iterate over the pairs
-                    {
-                        System.out.println("-------pair: " + pair);
-                        String[] entry = pair.split(":");
-                        System.out.println("-------entry: " + entry);
-                        map.put(entry[0].trim(), entry[1].trim());          //add them to the hashmap and trim whitespaces
+                // Split pairs on commas outside of ""
+                List<Map<String, Object>> aphorisms = new ArrayList<>();
+                for(String info : aInfo) {
+                    String[] pairs = info.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+                    // Put pairs into map
+                    Map<String, Object> aphorism = new HashMap<>();
+                    for(String pair : pairs) {
+                        String[] keyValue = pair.split(":");
+                        String key = keyValue[0].replace("\"", "");
+                        String value = keyValue[1].replace("\"", "");
+                        if(key.equalsIgnoreCase("id")){
+                            aphorism.put(key, Integer.parseInt(value));
+                        }
+                        else {
+                            aphorism.put(key, value);
+                        }
+
+                        System.out.println(aphorism);
+                        aphorisms.add(aphorism);
                     }
-                    aphorisms.add(map);
                 }
 
-                System.out.println(aphorisms);
-                */
             }
         });
     }
