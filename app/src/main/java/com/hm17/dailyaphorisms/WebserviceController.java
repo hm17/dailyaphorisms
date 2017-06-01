@@ -30,7 +30,7 @@ public class WebserviceController {
 
     public void get(final VolleyCallback callback) {
 
-        String url = SERVER_URL + "?action=get_app&id=1";
+        String url = SERVER_URL + "?action=get_app";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
