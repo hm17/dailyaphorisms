@@ -22,7 +22,7 @@ public class Aphorisms extends AppCompatActivity {
     private int dailyCount = 0;
 
     // Users are limited to 3 quotes a day.
-    // How to restrict users from resetting dailycount when app restarts?
+    // TODO: How to restrict users from resetting dailycount when app restarts?
     private int hardLimit = 2;
 
     // TODO: Put in config file (get fr server)
@@ -44,7 +44,8 @@ public class Aphorisms extends AppCompatActivity {
 
         webserviceDao = new WebserviceDao(this);
 
-        populateDictionary();
+        initializeDictionary();
+
         setText();
 
         buildColorCache();
@@ -60,11 +61,14 @@ public class Aphorisms extends AppCompatActivity {
 
     }
 
+    /**
+     * Call to Webservice and initialize dictionary with aphorisms.
+     */
     private void initializeDictionary(){
         webserviceDao.get(new VolleyCallback(){
             @Override
             public void onSuccess(String result){
-
+                //System.out.println("result: " + result);
                 String resultParsed = "";
 
                 // Extract result from in between []
@@ -83,9 +87,10 @@ public class Aphorisms extends AppCompatActivity {
                 }
 
                 // Split pairs on commas outside of ""
-                List<Map<String, Object>> aphorisms = new ArrayList<>();
+                Map<Integer, String> aphorisms = new HashMap<>();
                 for(String info : aInfo) {
                     String[] pairs = info.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+
                     // Put pairs into map
                     Map<String, Object> aphorism = new HashMap<>();
                     for(String pair : pairs) {
@@ -98,12 +103,13 @@ public class Aphorisms extends AppCompatActivity {
                         else {
                             aphorism.put(key, value);
                         }
-
-                        System.out.println(aphorism);
-                        aphorisms.add(aphorism);
                     }
+
+                    // Add to master map
+                    aphorisms.put((Integer) aphorism.get("id"), (String) aphorism.get("aphorism"));
                 }
 
+                dictionary = aphorisms;
             }
         });
     }
@@ -180,16 +186,6 @@ public class Aphorisms extends AppCompatActivity {
     }
 
     private int getRandomNumber() {return (int )(Math.random() * dictionary.size());}
-
-    private void populateDictionary(){
-        dictionary.put(0, "I crave a love so deep the ocean would be jealous.");
-        dictionary.put(1, "You make my dopamine levels go all silly.");
-        dictionary.put(2, "Just say yes.");
-        dictionary.put(3, "When you are stuck in a place where you feel you are not good enough, " +
-                "remember that what is right with you is always more than what is wrong with you.");
-        dictionary.put(4, "Anything is possibleeeeee!");
-        dictionary.put(5, "Your vibe attracts your tribe.");
-    }
 
     // TODO: Get colors from DB configuration
     private void buildColorCache(){

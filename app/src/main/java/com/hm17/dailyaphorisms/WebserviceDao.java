@@ -19,7 +19,7 @@ public class WebserviceDao {
 
     private RequestQueue queue;
 
-    // Get from config file eventually
+    // TODO: Get from config file eventually
     private final static String SERVER_URL = "http://dailyaphorisms.hazella.co/api.php";
 
     public WebserviceDao(Context context) {
@@ -28,6 +28,11 @@ public class WebserviceDao {
 
     }
 
+    /**
+     * Get list of aphorisms from server.
+     *
+     * @param callback
+     */
     public void get(final VolleyCallback callback) {
 
         String url = SERVER_URL + "?action=get_app_list";
@@ -36,7 +41,7 @@ public class WebserviceDao {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Response is: " + response);
+                        //System.out.println("Response is: " + response);
                         callback.onSuccess(response);
 
                     }
