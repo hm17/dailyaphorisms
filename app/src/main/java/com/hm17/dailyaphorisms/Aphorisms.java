@@ -8,6 +8,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hm17.dailyaphorisms.services.Sanitizer;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,8 @@ import java.util.regex.Pattern;
 public class Aphorisms extends AppCompatActivity {
 
     private WebserviceDao webserviceDao;
+
+    private Sanitizer sanitizer;
 
     private int dailyCount = 0;
 
@@ -43,6 +47,7 @@ public class Aphorisms extends AppCompatActivity {
         setContentView(R.layout.activity_aphorisms);
 
         webserviceDao = new WebserviceDao(this);
+        sanitizer = new Sanitizer();
 
         initializeDictionary();
 
@@ -105,8 +110,9 @@ public class Aphorisms extends AppCompatActivity {
                         }
                     }
 
-                    // Add to master map
-                    aphorisms.put((Integer) aphorism.get("id"), (String) aphorism.get("aphorism"));
+                    // Sanitize quote and add to master map
+                    String quote = sanitizer.sanitize((String) aphorism.get("aphorism"));
+                    aphorisms.put((Integer) aphorism.get("id"), quote);
                 }
 
                 dictionary = aphorisms;
