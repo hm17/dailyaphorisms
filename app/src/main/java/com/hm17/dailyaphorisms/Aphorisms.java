@@ -7,7 +7,9 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hm17.dailyaphorisms.services.OnSwipeTouchListener;
 import com.hm17.dailyaphorisms.services.Sanitizer;
 
 import java.util.ArrayList;
@@ -25,17 +27,22 @@ public class Aphorisms extends AppCompatActivity {
 
     private int dailyCount = 0;
 
+    private View view;
+    private TextView textViewMain;
+
     // Users are limited to 3 quotes a day.
     // TODO: How to restrict users from resetting dailycount when app restarts?
-    private int hardLimit = 2;
+    private int hardLimit = 50;
 
     // TODO: Put in config file (get fr server)
     private final static int QUOTES_TOTAL = 30;
 
     private final static String ERROR_LIMIT_MSG = "Sorry! You've reached your limit for today!";
 
-    private final static String COLOR_PINK = "#FFCCFF";
-    private final static String COLOR_TEAL = "#1FC4BA";
+    private final static String COLOR_PINK_HAZEL = "#FFCCFF";
+    private final static String COLOR_TEAL_KENNY = "#1FC4BA";
+    private final static String COLOR_LAVENDER_AARON = "##B99CD1";
+    private final static String COLOR_GRAY_JUDSON = "##698995";
 
     Map<Integer, String> dictionary = new HashMap<>();
     Map<Integer, Integer> cache = new HashMap<>();
@@ -51,9 +58,23 @@ public class Aphorisms extends AppCompatActivity {
 
         initializeDictionary();
 
+        textViewMain = (TextView) findViewById(R.id.textDisplay);
         setText();
 
+        // Set up swipe on view
+        view = findViewById(R.id.OuterRelativeLayout);
+        view.setOnTouchListener(new OnSwipeTouchListener(Aphorisms.this) {
+            public void onSwipeRight() {
+                Toast.makeText(Aphorisms.this, "right", Toast.LENGTH_SHORT).show();
+            }
+            public void onSwipeLeft() {
+                nextAphorism(textViewMain);
+            }
+        });
+
         buildColorCache();
+
+
 
     }
 
@@ -127,18 +148,18 @@ public class Aphorisms extends AppCompatActivity {
         View root = someView.getRootView();
 
         // Pick a random color
-        //int color = getColor(getRandomNumber());
+        String color = getColorFromCache(getRandomNumber(colorCache.size()));
 
         // Set the color
-        root.setBackgroundColor(Color.parseColor(COLOR_PINK));
+        root.setBackgroundColor(Color.parseColor(color));
     }
 
-    /**
-    private int getColor(int colorId){
+
+    private String getColorFromCache(int colorId){
         // get color from cache
         return colorCache.get(colorId);
     }
-    **/
+
 
     private void setText(){
         String text;
@@ -176,27 +197,29 @@ public class Aphorisms extends AppCompatActivity {
             }
 
         }
-        TextView textView = (TextView) findViewById(R.id.textDisplay);
-        textView.setText(text);
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        textViewMain.setText(text);
+        textViewMain.setGravity(Gravity.CENTER_HORIZONTAL);
 
         // Set width to be parent
         DisplayMetrics dm = new DisplayMetrics();
         this.getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
-        textView.getLayoutParams().width = width;
+        textViewMain.getLayoutParams().width = width;
     }
 
     private int getQuoteId(){
-        return (int )(Math.random() * dictionary.size());
+        return getRandomNumber(dictionary.size());
     }
 
-    private int getRandomNumber() {return (int )(Math.random() * dictionary.size());}
+    private int getRandomNumber(int dictionarySize) {return (int )(Math.random() * dictionarySize);}
 
     // TODO: Get colors from DB configuration
     private void buildColorCache(){
-        colorCache.put(0, COLOR_PINK);
-        colorCache.put(1, COLOR_TEAL);
+        colorCache.put(0, COLOR_PINK_HAZEL);
+        colorCache.put(1, COLOR_TEAL_KENNY);
+        colorCache.put(2, COLOR_LAVENDER_AARON);
+        colorCache.put(3, COLOR_GRAY_JUDSON);
     }
 
 }

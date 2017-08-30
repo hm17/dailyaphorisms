@@ -7,20 +7,6 @@
     android:background="@android:color/transparent"
     tools:context="com.hm17.dailyaphorisms.Aphorisms">
 
-    <RelativeLayout
-        android:id="@+id/InnerRelativeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@android:color/transparent">
-        <Button
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="Next"
-            android:onClick="nextAphorism" />
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/textInfo"
         android:layout_width="wrap_content"
