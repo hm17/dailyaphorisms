@@ -7,8 +7,8 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.hm17.dailyaphorisms.constants.Colors;
 import com.hm17.dailyaphorisms.services.OnSwipeTouchListener;
 import com.hm17.dailyaphorisms.services.Sanitizer;
 
@@ -30,19 +30,13 @@ public class Aphorisms extends AppCompatActivity {
     private View view;
     private TextView textViewMain;
 
-    // Users are limited to 3 quotes a day.
-    // TODO: How to restrict users from resetting dailycount when app restarts?
+    // TODO: Remove users' quote limits, every 5 quotes show an ad
     private int hardLimit = 50;
 
     // TODO: Put in config file (get fr server)
     private final static int QUOTES_TOTAL = 30;
 
     private final static String ERROR_LIMIT_MSG = "Sorry! You've reached your limit for today!";
-
-    private final static String COLOR_PINK_HAZEL = "#FFCCFF";
-    private final static String COLOR_TEAL_KENNY = "#1FC4BA";
-    private final static String COLOR_LAVENDER_AARON = "##B99CD1";
-    private final static String COLOR_GRAY_JUDSON = "##698995";
 
     Map<Integer, String> dictionary = new HashMap<>();
     Map<Integer, Integer> cache = new HashMap<>();
@@ -65,7 +59,7 @@ public class Aphorisms extends AppCompatActivity {
         view = findViewById(R.id.OuterRelativeLayout);
         view.setOnTouchListener(new OnSwipeTouchListener(Aphorisms.this) {
             public void onSwipeRight() {
-                Toast.makeText(Aphorisms.this, "right", Toast.LENGTH_SHORT).show();
+                // TODO: FUTURE ENHANCEMENT - Go to previous quote
             }
             public void onSwipeLeft() {
                 nextAphorism(textViewMain);
@@ -73,8 +67,6 @@ public class Aphorisms extends AppCompatActivity {
         });
 
         buildColorCache();
-
-
 
     }
 
@@ -212,14 +204,15 @@ public class Aphorisms extends AppCompatActivity {
         return getRandomNumber(dictionary.size());
     }
 
-    private int getRandomNumber(int dictionarySize) {return (int )(Math.random() * dictionarySize);}
+    private int getRandomNumber(int dictionarySize) {
+        return (int )(Math.random() * dictionarySize);
+    }
 
-    // TODO: Get colors from DB configuration
     private void buildColorCache(){
-        colorCache.put(0, COLOR_PINK_HAZEL);
-        colorCache.put(1, COLOR_TEAL_KENNY);
-        colorCache.put(2, COLOR_LAVENDER_AARON);
-        colorCache.put(3, COLOR_GRAY_JUDSON);
+        colorCache.put(0, Colors.COLOR_PINK_HAZEL);
+        colorCache.put(1, Colors.COLOR_TEAL_KENNY);
+        colorCache.put(2, Colors.COLOR_LAVENDER_AARON);
+        colorCache.put(3, Colors.COLOR_GRAY_JUDSON);
     }
 
 }
