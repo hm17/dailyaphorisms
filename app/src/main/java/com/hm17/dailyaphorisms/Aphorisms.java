@@ -198,6 +198,12 @@ public class Aphorisms extends AppCompatActivity {
         this.getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         textViewMain.getLayoutParams().width = width;
+
+
+        // Set quote author
+        // TODO: Get from DB
+        TextView textView = (TextView) findViewById(R.id.textAuthor);
+        textView.setText("Author Unknown");
     }
 
     private int getQuoteId(){
